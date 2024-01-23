@@ -1,0 +1,23 @@
+{
+  "name": "group-rate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc -p .",
+    "watch": "npm run build -- -w",
+    "dev": "nodemon dist/index.js",
+    "start": "node dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^5.8.0",
+    "node-telegram-bot-api": "^0.64.0",
+    "prisma": "^5.8.0"
+  },
+  "devDependencies": {
+    "@types/node-telegram-bot-api": "^0.64.2"
+  }
+}
