@@ -19,7 +19,7 @@ bot.on('text', async msg => {
                 let chat_from_name = msg.reply_to_message?.from?.first_name.replaceAll(/<|>/g, '')
                 console.log(msg);
                 
-                let chat = await getUser(Number(chat_from_id))
+                let chat = await getUser(Number(chat_from_id), undefined, `${msg.chat.id}`)
                 if(!chat.user) chat = await getUser(Number(chat_from_id), chat_from_name, `${msg.chat.id}`)
                 let totalBalance = Number(chat!.user!.balance) + Number(text)
                 let updatedUser = await updateUser({where: { id:chat.user?.id }, data: {balance: totalBalance}})
