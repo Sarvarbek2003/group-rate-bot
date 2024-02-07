@@ -4,14 +4,20 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 
-const getUser = async (chat_id: number, name?: string):Promise<{user:users | null, new_user:boolean}> => {
-    let is_user:users | null  = await prisma.users.findUnique({where: {chat_id: BigInt(chat_id)}})
+const getUser = async (chat_id: number, name?: string, group?: string):Promise<{user:users | null, new_user:boolean}> => {
+    let is_user:users | null  = await prisma.users.findFirst({where: {
+        AND :{ 
+            chat_id: BigInt(chat_id),
+            group
+        }
+    }})
 
     if (name) {
         let new_user = await prisma.users.create({
             data:{
                 chat_id:BigInt(chat_id),
-                name: name || 'Foydalanuvchi'
+                name: name || 'Foydalanuvchi',
+                group
             }
         })
         return {user: new_user, new_user: true}
@@ -27,8 +33,8 @@ const updateUser = async (data: Prisma.usersUpdateArgs):Promise<users> => {
     return await prisma.users.update(data)
 }
 
-const getUserBalances = async(page:number):Promise<{text: string, button: TelegramBot.InlineKeyboardMarkup}> => {
-    let users = await prisma.users.findMany()
+const getUserBalances = async(page:number, group:string):Promise<{text: string, button: TelegramBot.InlineKeyboardMarkup}> => {
+    let users = await prisma.users.findMany({where: {group}})
     let size = 4
     let paginationUsers = users.slice(page * size - size, size * page)
     let text = ``

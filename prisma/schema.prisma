@@ -13,9 +13,10 @@ datasource db {
 model users {
   id          Int  @id  @default(autoincrement())
   name        String
-  chat_id     BigInt   @unique
+  chat_id     BigInt   
   balance     BigInt   @default(0)
   isAdmin     Boolean  @default(false)
+  group       String? 
   created_at  DateTime @default(now())
   updated_at  DateTime @default(now()) @updatedAt
 }
